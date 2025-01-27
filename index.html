@@ -1,0 +1,109 @@
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Google Form-like App</title>
+    <link
+      rel="stylesheet"
+      href="assets/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="styles/responsive.css"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Form Builder</h1>
+
+      <div id="form-builder">
+        <h2>Create a New Form</h2>
+        <button id="add-text-field">Add Text Field</button>
+        <button id="add-radio-field">Add Multiple Choice</button>
+        <button id="add-checkbox-field">Add Checkbox</button>
+        <div id="form-preview"></div>
+        <button id="save-form">Save Form</button>
+      </div>
+
+      <div id="form-list">
+        <h2>Saved Forms</h2>
+        <ul id="saved-forms"></ul>
+      </div>
+    </div>
+    <script src="scripts/app.js"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Google Form-like App</title>
+    <link
+      rel="stylesheet"
+      href="dist/assets/styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="dist/styles/responsive.css"
+    />
+
+    <script
+      src="dist/components/formManager.js"
+      type="module"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Form Builder</h1>
+
+      <!-- Form Creation Section -->
+      <div id="form-builder">
+        <h2>Create a New Form</h2>
+        <button id="add-text-field">Add Text Field</button>
+        <button id="add-radio-field">Add Multiple Choice</button>
+        <button id="add-checkbox-field">Add Checkbox</button>
+        <div id="form-preview"></div>
+        <button id="save-form">Save Form</button>
+      </div>
+
+      <!-- Form List Section -->
+      <div id="form-list">
+        <h2>Saved Forms</h2>
+        <ul id="saved-forms"></ul>
+      </div>
+    </div>
+
+    <script type="module">
+      import { FormManager } from './dist/components/formManager.js';
+
+      // Initialize FormManager with button references
+      const formManager = new FormManager(
+        document.getElementById('saved-forms'), // Form list
+        document.getElementById('form-preview'), // Form preview container
+        document.createElement('div'), // Placeholder for submission container
+        document.createElement('div'), // Placeholder for responses container
+        document.createElement('div'), // Feedback container
+        document.createElement('input'), // Placeholder for search input
+        document.createElement('button'), // Placeholder for sort button
+        document.createElement('button'), // Placeholder for theme toggle button
+        document.getElementById('form-preview'), // Real-time preview
+        document.createElement('button'), // Placeholder for bulk export button
+        document.getElementById('add-text-field'), // Add text field button
+        document.getElementById('add-radio-field'), // Add multiple choice button
+        document.getElementById('add-checkbox-field'), // Add checkbox button
+        document.getElementById('save-form') // Save form button
+      );
+    </script>
+  </body>
+</html>
