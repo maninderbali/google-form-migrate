@@ -108,15 +108,29 @@ export class FormManager {
     });
 
     this.addCheckboxButton.addEventListener('click', () => {
+      const numCheckboxes = parseInt(
+        prompt('How many checkboxes do you want to add?') || '0',
+        10
+      );
+
+      if (isNaN(numCheckboxes) || numCheckboxes <= 0) {
+        this.displayFeedback('Please enter a valid number greater than 0.');
+        return;
+      }
+
       const field: Field = {
         label: 'New Checkbox',
         type: 'checkbox',
         required: false,
-        options: ['Option 1', 'Option 2'],
+        options: Array.from(
+          { length: numCheckboxes },
+          (_, i) => `Option ${i + 1}`
+        ),
       };
+
       this.currentFormFields.push(field);
       this.updateRealTimePreview(this.currentFormFields);
-      this.displayFeedback('Checkbox field added to the form.');
+      this.displayFeedback(`${numCheckboxes} checkboxes added to the form.`);
     });
   }
 
@@ -401,26 +415,38 @@ export class FormManager {
       this.displayFeedback(`Form "${formName}" deleted successfully.`);
     }
   }
-
   private createRadioOptions(field: Field): HTMLElement {
     const container = document.createElement('div');
     container.className = 'radio-options';
 
+    // Render existing options
     field.options?.forEach((option, index) => {
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = field.label;
-      input.id = `${field.label}-option${index}`;
-      input.value = option;
-
-      const label = document.createElement('label');
-      label.htmlFor = input.id;
-      label.textContent = option;
-
-      container.appendChild(input);
-      container.appendChild(label);
+      const wrapper = this.createSingleRadioOption(field, option, index);
+      container.appendChild(wrapper);
     });
 
+    // Add button to dynamically add more options
+    const addOptionButton = document.createElement('button');
+    addOptionButton.textContent = 'Add Option';
+    addOptionButton.className = 'btn btn-add-option';
+
+    addOptionButton.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent page refresh
+
+      // Add a new option
+      const newOption = `Option ${field.options!.length + 1}`;
+      field.options!.push(newOption);
+
+      // Create and add the new radio option dynamically
+      const wrapper = this.createSingleRadioOption(
+        field,
+        newOption,
+        field.options!.length - 1
+      );
+      container.insertBefore(wrapper, addOptionButton);
+    });
+
+    container.appendChild(addOptionButton);
     return container;
   }
 
@@ -428,21 +454,96 @@ export class FormManager {
     const container = document.createElement('div');
     container.className = 'checkbox-options';
 
-    field.options?.forEach((option) => {
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.name = field.label;
-      input.id = `${field.label}-${option}`;
-      input.value = option;
-
-      const label = document.createElement('label');
-      label.htmlFor = input.id;
-      label.textContent = option;
-
-      container.appendChild(input);
-      container.appendChild(label);
+    // Render existing options
+    field.options?.forEach((option, index) => {
+      const wrapper = this.createSingleCheckboxOption(field, option, index);
+      container.appendChild(wrapper);
     });
 
+    // Add button to dynamically add more options
+    const addOptionButton = document.createElement('button');
+    addOptionButton.textContent = 'Add Option';
+    addOptionButton.className = 'btn btn-add-option';
+
+    addOptionButton.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent page refresh
+
+      // Add a new option
+      const newOption = `Option ${field.options!.length + 1}`;
+      field.options!.push(newOption);
+
+      // Create and add the new checkbox dynamically
+      const wrapper = this.createSingleCheckboxOption(
+        field,
+        newOption,
+        field.options!.length - 1
+      );
+      container.insertBefore(wrapper, addOptionButton);
+    });
+
+    container.appendChild(addOptionButton);
     return container;
+  }
+
+  private createSingleRadioOption(
+    field: Field,
+    option: string,
+    index: number
+  ): HTMLElement {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'radio-option';
+
+    // Radio input
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = field.label;
+    input.id = `${field.label}-option${index}`;
+    input.value = option;
+
+    // Editable label
+    const labelInput = document.createElement('input');
+    labelInput.type = 'text';
+    labelInput.value = option;
+    labelInput.className = 'radio-label';
+
+    // Update the field options dynamically
+    labelInput.addEventListener('input', () => {
+      field.options![index] = labelInput.value;
+    });
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(labelInput);
+    return wrapper;
+  }
+
+  private createSingleCheckboxOption(
+    field: Field,
+    option: string,
+    index: number
+  ): HTMLElement {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'checkbox-option';
+
+    // Checkbox input
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = field.label;
+    input.id = `${field.label}-option${index}`;
+    input.value = option;
+
+    // Editable label
+    const labelInput = document.createElement('input');
+    labelInput.type = 'text';
+    labelInput.value = option;
+    labelInput.className = 'checkbox-label';
+
+    // Update the field options dynamically
+    labelInput.addEventListener('input', () => {
+      field.options![index] = labelInput.value;
+    });
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(labelInput);
+    return wrapper;
   }
 }

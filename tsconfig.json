@@ -1,30 +1,19 @@
-// {
-//  "compilerOptions": {
-//     "target": "ES6",
-//     "module": "ESNext",
-//     "moduleResolution": "Node",
-//     "strict": true,
-//     "outDir": "./dist",
-//     "rootDir": "./src",
-//     "esModuleInterop": true,
-//     "skipLibCheck": true
-//   },
-//   "include": ["src/**/*"],
-//   "exclude": ["node_modules"]
-// }
-
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "module": "esnext",
-    "target": "es6",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "outDir": "./dist", // Compiled output directory
+    "rootDir": "./src", // Source code directory
+    "module": "esnext", // Use ESNext for module output
+    "target": "es6", // Compile to ES6
+    "moduleResolution": "node", // Node-style module resolution
+    "esModuleInterop": true, // Interop for ES modules
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src", // Base directory for module resolution
+    "paths": {
+      "*": ["*"] // Ensure all paths are mapped correctly
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.css"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
