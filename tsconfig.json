@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./public", // Compiled output directory
+    "outDir": "./dist", // Compiled output directory
     "rootDir": "./src", // Source code directory
     "module": "esnext", // Use ESNext for module output
     "target": "es6", // Compile to ES6
