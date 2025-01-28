@@ -1,6 +1,7 @@
 export interface Field {
   label: string; // Field label displayed to users
   type: 'text' | 'radio' | 'checkbox'; // Type of the field
+  placeholder?: string; // Placeholder text for text fields
   required?: boolean; // Whether the field is required
   minLength?: number; // Minimum length for text fields
   maxLength?: number; // Maximum length for text fields

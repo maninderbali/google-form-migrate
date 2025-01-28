@@ -276,7 +276,7 @@ export class FormManager {
         fieldLabel = labelInput;
       }
 
-      fieldWrapper.appendChild(fieldLabel); // Add the field label to the wrapper
+      fieldWrapper.appendChild(fieldLabel);
 
       let inputField: HTMLElement;
       switch (field.type) {
@@ -294,7 +294,7 @@ export class FormManager {
           break;
       }
 
-      fieldWrapper.appendChild(inputField); // Add the input field to the wrapper
+      fieldWrapper.appendChild(inputField);
       previewForm.appendChild(fieldWrapper);
     });
 
