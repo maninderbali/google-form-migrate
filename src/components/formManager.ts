@@ -253,15 +253,30 @@ export class FormManager {
     const previewForm = document.createElement('form');
     previewForm.className = 'preview-form';
 
-    fields.forEach((field: Field) => {
+    fields.forEach((field: Field, fieldIndex: number) => {
       const fieldWrapper = document.createElement('div');
       fieldWrapper.className = 'field-wrapper';
 
-      const fieldLabel = document.createElement('label');
-      fieldLabel.textContent = field.label;
-      fieldLabel.className = 'field-label';
+      let fieldLabel: HTMLElement;
 
-      fieldWrapper.appendChild(fieldLabel);
+      if (isPreview) {
+        // Render static label in preview mode
+        fieldLabel = document.createElement('label');
+        fieldLabel.textContent = field.label;
+        fieldLabel.className = 'field-label';
+      } else {
+        // Render editable label in builder mode
+        const labelInput = document.createElement('input');
+        labelInput.type = 'text';
+        labelInput.value = field.label;
+        labelInput.className = 'field-label-input';
+        labelInput.addEventListener('input', () => {
+          field.label = labelInput.value; // Update the field label dynamically
+        });
+        fieldLabel = labelInput;
+      }
+
+      fieldWrapper.appendChild(fieldLabel); // Add the field label to the wrapper
 
       let inputField: HTMLElement;
       switch (field.type) {
@@ -272,14 +287,14 @@ export class FormManager {
           (inputField as HTMLInputElement).disabled = isPreview; // Disable in preview
           break;
         case 'radio':
-          inputField = this.createRadioOptions(field, isPreview); // Pass the preview flag
+          inputField = this.createRadioOptions(field, isPreview);
           break;
         case 'checkbox':
-          inputField = this.createCheckboxOptions(field, isPreview); // Pass the preview flag
+          inputField = this.createCheckboxOptions(field, isPreview);
           break;
       }
 
-      fieldWrapper.appendChild(inputField);
+      fieldWrapper.appendChild(inputField); // Add the input field to the wrapper
       previewForm.appendChild(fieldWrapper);
     });
 
@@ -441,13 +456,13 @@ export class FormManager {
         // Show static label in preview
         label.textContent = option;
       } else {
-        // Editable label in builder
+        // Editable label in builder mode
         const labelInput = document.createElement('input');
         labelInput.type = 'text';
         labelInput.value = option;
         labelInput.className = 'radio-label';
         labelInput.addEventListener('input', () => {
-          field.options![index] = labelInput.value; // Update the label dynamically
+          field.options![index] = labelInput.value; // Update the option label dynamically
         });
         wrapper.appendChild(labelInput);
       }
@@ -482,13 +497,13 @@ export class FormManager {
         // Show static label in preview
         label.textContent = option;
       } else {
-        // Editable label in builder
+        // Editable label in builder mode
         const labelInput = document.createElement('input');
         labelInput.type = 'text';
         labelInput.value = option;
         labelInput.className = 'checkbox-label';
         labelInput.addEventListener('input', () => {
-          field.options![index] = labelInput.value; // Update the label dynamically
+          field.options![index] = labelInput.value; // Update the option label dynamically
         });
         wrapper.appendChild(labelInput);
       }
