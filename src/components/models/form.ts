@@ -1,12 +1,10 @@
 export interface Field {
-  label: string; // Field label displayed to users
-  type: 'text' | 'radio' | 'checkbox'; // Type of the field
-  placeholder?: string; // Placeholder text for text fields
-  required?: boolean; // Whether the field is required
-  minLength?: number; // Minimum length for text fields
-  maxLength?: number; // Maximum length for text fields
-  pattern?: string; // Pattern for validation (e.g., regex)
-  options?: string[]; // Options for radio or checkbox fields
+  label: string;
+  type: 'text' | 'radio' | 'checkbox';
+  required?: boolean;
+  value?: string; // For text and radio fields
+  values?: string[]; // For checkbox fields
+  options?: string[]; // For radio and checkbox options
 }
 
 export interface Form {
