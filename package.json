@@ -7,7 +7,8 @@
     "build:ts": "tsc",
     "fix:imports": "node fix-imports.js",
     "copy:css": "copyfiles -u 1 src/**/*.css dist",
-    "build": "npm run build:ts && npm run copy:css && npm run fix:imports",
+    "copy:static": "copyfiles -u 1 src/index.html dist/",
+    "build": "npm run build:ts && npm run copy:css && npm run copy:static && npm run fix:imports",
     "start": "http-server ."
   },
   "keywords": [],
